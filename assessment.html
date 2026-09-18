@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Automation Assessment — Seif Mongy</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="nav">
+  <a class="brand" href="../index.html">Seif Mongy<span>.</span></a>
+  <nav>
+    <a href="../index.html#work">WORK</a>
+    <a href="../index.html#about">ABOUT</a>
+    <a href="../index.html#contact">CONTACT</a>
+    <a class="resume" href="../Seif-Mongy-CV.pdf" download>Résumé</a>
+  </nav>
+</header>
+
+<main class="project-page">
+<a class="back-link" href="../index.html#work">← All work</a>
+
+<section class="case-hero">
+  <div class="eyebrow">CASE STUDY / AI ASSESSMENT · MULTI-INDUSTRY</div>
+  <h1>AI Automation Assessment</h1>
+  <p class="lead">An interactive assessment system designed to identify automation opportunities across different industries by analyzing how a business operates, scoring its current level of automation, and generating a personalized automation report.</p>
+
+  <div class="case-meta">
+    <div><small>ROLE</small><span>Freelance · AI Automation Engineer</span></div>
+    <div><small>STACK</small><span>Tally · n8n · PostgreSQL · OpenAI · Claude · Gemini</span></div>
+    <div><small>TYPE</small><span>AI assessment · Lead generation</span></div>
+    <div><small>IMPACT</small><span>Assessment → score → automation report</span></div>
+  </div>
+</section>
+
+<section class="case-content">
+
+<section class="case-block">
+<h2><span class="num">01</span>Overview</h2>
+<p>The AI Automation Assessment is an interactive system built to help businesses discover where automation can be applied to their existing processes. The assessment supports multiple industries, including Real Estate, Healthcare / Clinics, Restaurants & Cafés, E-commerce / Retail, Marketing / Advertising, Professional Services, Education / Training, Construction, Manufacturing, Logistics and Other.</p>
+<p>Each industry has its own set of technical questions designed to cover important business processes. The assessment combines multiple-choice scoring with open-ended questions that let the respondent describe their real workflow, recurring tasks and day-to-day operations in their own words.</p>
+<p>After submission, the workflow evaluates the answers, calculates an overall automation result and sends a personalized report to the email address provided by the respondent.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">02</span>Business problem</h2>
+<p>Many businesses know that they spend time on repetitive manual work, but they do not always know which processes are suitable for automation or where to start.</p>
+<p>The assessment was designed as an automated discovery layer: instead of requiring an initial manual consultation, a business can describe how it works, receive an assessment of its current automation level, and see concrete areas where automation could potentially reduce repetitive work, time and cost.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">03</span>Architecture</h2>
+<div class="architecture">
+  <div class="arch-legend">
+    <span class="trigger">TRIGGER</span><span class="ai">AI</span><span class="integration">PROCESSING</span><span class="storage">STORAGE</span>
+  </div>
+
+  <div class="arch-row">
+    <small>INPUT</small>
+    <div>
+      <b class="pill trigger">Tally assessment</b>
+      <b class="pill integration">Industry selection</b>
+      <b class="pill integration">MCQ answers</b>
+      <b class="pill integration">Open-ended answers</b>
+    </div>
+  </div>
+
+  <div class="arch-row">
+    <small>INGESTION</small>
+    <div>
+      <b class="pill integration">Normalize submission</b>
+      <b class="pill storage">PostgreSQL</b>
+      <b class="pill storage">Persist assessment data</b>
+      <b class="pill integration">Split scoring inputs</b>
+    </div>
+  </div>
+
+  <div class="arch-row">
+    <small>SCORING</small>
+    <div>
+      <b class="pill integration">MCQ deterministic score</b>
+      <b class="pill ai">Score Agent</b>
+      <b class="pill ai">Essay / free-text analysis</b>
+    </div>
+  </div>
+
+  <div class="arch-row">
+    <small>AI LAYER</small>
+    <div>
+      <b class="pill ai">ChatGPT</b>
+      <b class="pill ai">Claude</b>
+      <b class="pill ai">Gemini</b>
+      <b class="pill ai">Structured output</b>
+    </div>
+  </div>
+
+  <div class="arch-row">
+    <small>AGGREGATION</small>
+    <div>
+      <b class="pill integration">Merge scores</b>
+      <b class="pill integration">Calculate final score</b>
+      <b class="pill ai">Summarization Agent</b>
+    </div>
+  </div>
+
+  <div class="arch-row">
+    <small>DELIVERY</small>
+    <div>
+      <b class="pill storage">Normalize report</b>
+      <b class="pill integration">Generate email</b>
+      <b class="pill trigger">Send result email</b>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="case-block">
+<h2><span class="num">04</span>Workflow</h2>
+<div class="workflow-shot">
+  <img src="assessment-workflow.jpg" alt="AI Automation Assessment n8n workflow">
+</div>
+<div class="workflow-flow">
+  <span class="flow-pill trigger">Tally Trigger</span><span>→</span>
+  <span class="flow-pill integration">Normalize submission</span><span>→</span>
+  <span class="flow-pill storage">PostgreSQL</span><span>→</span>
+  <span class="flow-pill integration">Industry / question routing</span><span>→</span>
+  <span class="flow-pill integration">MCQ scoring</span><span>+</span>
+  <span class="flow-pill ai">Score Agent</span><span>→</span>
+  <span class="flow-pill integration">Merge scores</span><span>→</span>
+  <span class="flow-pill ai">Summarization Agent</span><span>→</span>
+  <span class="flow-pill trigger">Send email</span>
+</div>
+</section>
+
+<section class="case-block">
+<h2><span class="num">05</span>Assessment design</h2>
+<ul class="detail-list">
+<li><b>Industry-specific questions:</b> each selected industry has a dedicated question set designed around its typical business processes.</li>
+<li><b>Multiple-choice scoring:</b> the structured questions are scored directly according to the defined answer values.</li>
+<li><b>Open-ended discovery:</b> additional questions allow the respondent to explain what they do, how their day works and which tasks repeat most often.</li>
+<li><b>Custom responses:</b> respondents can use an “Other” path when the predefined options do not describe their business accurately.</li>
+<li><b>Combined evaluation:</b> the final result combines the deterministic score from structured answers with the AI evaluation of the open-ended responses.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">06</span>AI components</h2>
+<ul class="detail-list">
+<li><b>Score Agent for Essay Questions:</b> analyzes the respondent's free-text answers according to the defined system prompt and produces a score based on the information provided.</li>
+<li><b>Multiple model evaluation:</b> the workflow uses different model paths including ChatGPT with Claude and ChatGPT with Gemini for the AI evaluation stages.</li>
+<li><b>Summarization Agent:</b> receives the resulting scores and assessment data, then turns them into a readable report for the respondent.</li>
+<li><b>Automation recommendations:</b> the generated report explains where automation opportunities may exist and what processes could be targeted.</li>
+<li><b>Answer-quality feedback:</b> low-quality or insufficient answers can be reflected in the assessment output so the respondent understands that better process detail produces a more useful evaluation.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">07</span>Integrations</h2>
+<ul class="detail-list">
+<li><b>Tally</b> — assessment interface, industry selection and answer collection.</li>
+<li><b>n8n</b> — end-to-end workflow orchestration, routing, scoring and delivery.</li>
+<li><b>PostgreSQL</b> — persistence for assessment and processing data.</li>
+<li><b>OpenAI / ChatGPT</b> — AI evaluation and reasoning stages.</li>
+<li><b>Anthropic / Claude</b> — additional model path for evaluation.</li>
+<li><b>Google Gemini</b> — additional model path used in the assessment workflow.</li>
+<li><b>Email delivery</b> — sends the personalized assessment result to the respondent's submitted email address.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">08</span>Technical challenges</h2>
+<ul class="detail-list">
+<li><b>Multi-industry branching:</b> the assessment needs to change its evaluation context according to the selected industry rather than treating every business the same way.</li>
+<li><b>Mixed scoring:</b> deterministic multiple-choice scoring has to be combined with an AI-generated score for open-ended answers.</li>
+<li><b>Unstructured answers:</b> respondents can describe the same process in very different language, so the Score Agent needs a consistent evaluation framework.</li>
+<li><b>Low-quality input:</b> the system has to distinguish useful process descriptions from answers that contain little actionable information.</li>
+<li><b>Report generation:</b> raw scores are not enough; the final output needs to explain what the result means and translate it into potential automation opportunities.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">09</span>Reliability engineering</h2>
+<ul class="detail-list">
+<li><b>Persistence:</b> assessment data is stored in PostgreSQL as the workflow processes the submission.</li>
+<li><b>Normalization:</b> incoming form data is normalized before it reaches downstream scoring stages.</li>
+<li><b>Structured scoring:</b> defined scores for multiple-choice answers provide a deterministic component instead of relying entirely on an LLM.</li>
+<li><b>Structured AI output:</b> AI scoring and summarization are handled as explicit workflow stages so their outputs can feed subsequent nodes.</li>
+<li><b>Separation of concerns:</b> scoring open-ended answers and writing the final report are separated into different agents.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">10</span>Business impact</h2>
+<div class="impact-grid">
+  <div><strong>Multi</strong><small>INDUSTRIES ASSESSED</small></div>
+  <div><strong>Hybrid</strong><small>RULE + AI SCORING</small></div>
+  <div><strong>Auto</strong><small>REPORT GENERATION</small></div>
+  <div><strong>Direct</strong><small>EMAIL DELIVERY</small></div>
+</div>
+<p class="impact-note">The system turns an initial business-process discovery step into an automated assessment experience: the respondent describes the business, the workflow evaluates the answers, and the resulting report highlights potential automation areas.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">11</span>Lessons learned</h2>
+<p>A useful automation assessment needs both structured data and room for the business owner to explain what actually happens inside the company. Multiple-choice questions make part of the evaluation deterministic, while open-ended answers give the AI enough context to understand processes that cannot be captured by predefined options alone.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">12</span>Future improvements</h2>
+<ul class="detail-list">
+<li>Add an automated lead-priority score based on automation opportunity and estimated business value.</li>
+<li>Add a visual automation roadmap showing quick wins, medium-term automations and larger transformation opportunities.</li>
+<li>Store assessment history so businesses can retake the assessment and compare progress over time.</li>
+<li>Add industry-specific automation libraries that map common process patterns to ready-to-build workflows.</li>
+<li>Add confidence indicators for AI-generated scores and flag low-confidence assessments for human review.</li>
+</ul>
+</section>
+
+</section>
+
+<div class="case-nav">
+  <a href="clinic.html">← AI Clinic Automation</a>
+  <a href="../index.html#work"><small>Back to portfolio</small><span class="next">All work →</span></a>
+</div>
+</main>
+
+<footer>
+<span>© 2026 · SEIF MONGY — FREELANCE AI AUTOMATION ENGINEER</span>
+<span>BUILT WITH <i>●</i> N8N, AI & CARE</span>
+</footer>
+</body>
+</html>

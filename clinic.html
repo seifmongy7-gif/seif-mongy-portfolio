@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Clinic Customer Support & Appointment Management — Seif Mongy</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="nav">
+  <a class="brand" href="../index.html">Seif Mongy<span>.</span></a>
+  <nav>
+    <a href="../index.html#work">WORK</a>
+    <a href="../index.html#about">ABOUT</a>
+    <a href="../index.html#contact">CONTACT</a>
+    <a class="resume" href="../Seif-Mongy-CV.pdf" download>Résumé</a>
+  </nav>
+</header>
+
+<main class="project-page">
+<a class="back-link" href="../index.html#work">← All work</a>
+
+<section class="case-hero">
+  <div class="eyebrow">CASE STUDY / AI AGENTS · DENTAL CLINIC</div>
+  <h1>Clinic Customer Support & Appointment Management</h1>
+  <p class="lead">An AI-powered dental clinic agent that answers patient questions, works with clinic and doctor knowledge through RAG, manages appointments over WhatsApp, sends reminders, and hands conversations to reception when human support is needed.</p>
+
+  <div class="case-meta">
+    <div><small>ROLE</small><span>Freelance · AI Automation Engineer</span></div>
+    <div><small>STACK</small><span>n8n · PostgreSQL · Supabase · WhatsApp · RAG · GPT-5 · Gemini</span></div>
+    <div><small>TYPE</small><span>AI agent · Workflow automation</span></div>
+    <div><small>IMPACT</small><span>Automated support, booking & reminders</span></div>
+  </div>
+</section>
+
+<section class="case-content">
+
+<section class="case-block">
+<h2><span class="num">01</span>Overview</h2>
+<p>The system acts as a customer-support and appointment-management agent for a dental clinic. Clinic and doctor information is provided through a RAG knowledge layer, including doctors' names, emails, education and other relevant profile information. Patients communicate with the agent through WhatsApp, while PostgreSQL/Supabase stores conversation and operational data.</p>
+<p>The agent can answer questions, find relevant doctor/service information, create appointments, reschedule appointments, cancel appointments and send appointment reminders. When the conversation requires a receptionist, the agent performs a human handoff while preserving the conversation context.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">02</span>Business problem</h2>
+<p>Appointment management and customer support were handled manually. Patients needed to contact the clinic to ask questions and manage appointments, while staff also had to deal with forgotten appointments and missed visits.</p>
+<p>The goal was to automate the repetitive communication and scheduling work while keeping a clear path to a human receptionist whenever the AI should no longer handle the conversation.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">03</span>Architecture</h2>
+<div class="architecture">
+  <div class="arch-legend">
+    <span class="trigger">TRIGGER</span><span class="ai">AI</span><span class="integration">INTEGRATION</span><span class="storage">STORAGE</span>
+  </div>
+
+  <div class="arch-row">
+    <small>CHANNEL</small>
+    <div><b class="pill trigger">WhatsApp message</b><b class="pill integration">WhatsApp Business API</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>INGESTION</small>
+    <div><b class="pill integration">Normalization</b><b class="pill storage">Load conversation context</b><b class="pill storage">Save incoming message</b><b class="pill integration">Date & time handling</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>AI LAYER</small>
+    <div><b class="pill ai">Clinic AI Agent</b><b class="pill ai">GPT-5</b><b class="pill ai">Gemini fallback</b><b class="pill ai">RAG knowledge</b><b class="pill ai">Structured output</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>TOOLS</small>
+    <div><b class="pill storage">Find doctor</b><b class="pill storage">Find service</b><b class="pill storage">Check availability</b><b class="pill storage">Find patient</b><b class="pill storage">Get appointments</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>ACTIONS</small>
+    <div><b class="pill integration">Create appointment</b><b class="pill integration">Reschedule appointment</b><b class="pill integration">Cancel appointment</b><b class="pill trigger">Send WhatsApp response</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>HUMAN HANDOFF</small>
+    <div><b class="pill integration">Reception handoff</b><b class="pill storage">Conversation context retained</b></div>
+  </div>
+
+  <div class="arch-row">
+    <small>REMINDERS</small>
+    <div><b class="pill integration">24h reminder</b><b class="pill integration">6h reminder</b><b class="pill integration">3h reminder</b></div>
+  </div>
+</div>
+</section>
+
+<section class="case-block">
+<h2><span class="num">04</span>Workflow</h2>
+<div class="workflow-shot"><img src="clinic-workflow.jpg" alt="Clinic Customer Support and Appointment Management n8n workflow"></div>
+<div class="workflow-flow">
+  <span class="flow-pill trigger">WhatsApp Trigger</span><span>→</span>
+  <span class="flow-pill integration">Normalization</span><span>→</span>
+  <span class="flow-pill storage">PostgreSQL / conversation context</span><span>→</span>
+  <span class="flow-pill ai">Clinic Agent</span><span>→</span>
+  <span class="flow-pill integration">Tools / actions</span><span>→</span>
+  <span class="flow-pill trigger">WhatsApp response</span>
+</div>
+</section>
+
+<section class="case-block">
+<h2><span class="num">05</span>AI components</h2>
+<ul class="detail-list">
+<li><b>RAG knowledge layer</b> — provides the agent with clinic and doctor information such as names, emails, education and profile details.</li>
+<li><b>GPT-5</b> — primary conversational model used by the clinic agent.</li>
+<li><b>Gemini fallback</b> — full fallback path so the agent can continue operating if the primary model becomes unavailable.</li>
+<li><b>Tool calling</b> — the agent can use operational tools for doctor/service lookup, availability and appointment actions instead of treating scheduling as plain text.</li>
+<li><b>Structured output</b> — keeps agent decisions and downstream workflow handling predictable.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">06</span>Integrations</h2>
+<ul class="detail-list">
+<li><b>WhatsApp Business API</b> — patient conversations, confirmations and reminders.</li>
+<li><b>n8n</b> — workflow orchestration and automation logic.</li>
+<li><b>PostgreSQL</b> — conversation and operational data storage.</li>
+<li><b>Supabase</b> — database infrastructure around the PostgreSQL layer.</li>
+<li><b>RAG knowledge source</b> — doctor and clinic information used by the agent.</li>
+<li><b>OpenAI GPT-5 + Google Gemini</b> — primary model and fallback model.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">07</span>Technical challenges</h2>
+<ul class="detail-list">
+<li><b>Medical intake:</b> each doctor needs access to the patient's relevant medical history before treatment, so the workflow includes a patient-data/form layer rather than treating appointment booking as the only data requirement.</li>
+<li><b>Safety-sensitive information:</b> patient history can affect what a dentist can safely consider, so the system must keep patient information organized and available to the clinical team rather than relying on conversational memory alone.</li>
+<li><b>Human handoff:</b> the agent needs to recognize when the patient should speak to reception and transfer the conversation without losing context.</li>
+<li><b>Appointment state:</b> booking, rescheduling and cancellation require consistent database state so the conversation and appointment records do not drift apart.</li>
+<li><b>Model availability:</b> the workflow uses a Gemini fallback path when GPT-5 is unavailable.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">08</span>Reliability engineering</h2>
+<ul class="detail-list">
+<li><b>Validation:</b> normalize incoming messages and validate the data required before operational actions.</li>
+<li><b>Persistence:</b> save incoming messages and conversation context so the agent has continuity across interactions.</li>
+<li><b>Fallback:</b> Gemini provides a second model path if the primary GPT-5 path fails.</li>
+<li><b>Human escalation:</b> conversations that require staff involvement are handed to reception instead of forcing the AI to continue.</li>
+<li><b>Appointment reminders:</b> scheduled reminders are sent before appointments to reduce forgotten visits.</li>
+</ul>
+</section>
+
+<section class="case-block">
+<h2><span class="num">09</span>Business impact</h2>
+<div class="impact-grid">
+  <div><strong>24/7</strong><small>AI CUSTOMER SUPPORT</small></div>
+  <div><strong>Auto</strong><small>BOOK · RESCHEDULE · CANCEL</small></div>
+  <div><strong>3×</strong><small>REMINDER STAGES</small></div>
+  <div><strong>Human</strong><small>RECEPTION HANDOFF</small></div>
+</div>
+<p class="impact-note">The documented impact is workflow automation: repetitive booking/support communication is handled automatically, reminders are sent before appointments, and human support remains available through escalation.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">10</span>Lessons learned</h2>
+<p>An AI agent becomes much more useful when it is connected to real operational tools and persistent data. For a clinic, conversational ability alone is not enough: the system needs structured clinic knowledge, appointment state, patient information, model fallback and a reliable human-handoff path.</p>
+</section>
+
+<section class="case-block">
+<h2><span class="num">11</span>Future improvements</h2>
+<ul class="detail-list">
+<li>Add a dedicated patient portal for reviewing and updating intake information.</li>
+<li>Add automated post-appointment follow-ups and satisfaction collection.</li>
+<li>Add more granular receptionist routing by doctor, service or request type.</li>
+<li>Add appointment confirmation/response tracking for reminder messages.</li>
+<li>Add richer observability dashboards for model usage, handoffs, failed actions and appointment operations.</li>
+</ul>
+</section>
+
+</section>
+
+<div class="case-nav">
+  <a href="../index.html#work">← All work</a>
+  <a href="assessment.html"><small>Next case</small><span class="next">AI Multi-Industry Assessment →</span></a>
+</div>
+</main>
+
+<footer>
+<span>© 2026 · SEIF MONGY — FREELANCE AI AUTOMATION ENGINEER</span>
+<span>BUILT WITH <i>●</i> N8N, AI & CARE</span>
+</footer>
+</body>
+</html>
